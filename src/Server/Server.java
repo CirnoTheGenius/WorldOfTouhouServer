@@ -1,6 +1,7 @@
 package Server;
 
 import java.io.IOException;
+import java.net.DatagramSocket;
 import java.net.ServerSocket;
 import Server.ServerLogger.Severity;
 
@@ -11,7 +12,8 @@ public class Server extends Thread {
 	private int MaxPlayers;
 	private ServerLogger Logger = new ServerLogger();
 	private ServerSocket serverSocket;
-
+	private DatagramSocket dataSocket;
+	
 	public Server(String n, int mp){
 		Name = n;
 		MaxPlayers = mp;
@@ -22,8 +24,9 @@ public class Server extends Thread {
 	public void run(){
 		try {
 			serverSocket = new ServerSocket(9999);
-		} catch (IOException e1) {
-			e1.printStackTrace();
+			dataSocket = new DatagramSocket(9999);
+		} catch (IOException e) {
+			e.printStackTrace();
 			getLogger().log("Failed to bind to port 9999! Oh noes!", Severity.SEVERE);
 			System.exit(-1);
 		}
@@ -34,10 +37,14 @@ public class Server extends Thread {
 			 * 
 			 * 
 			 */
-			new ClientThread(serverSocket, this);
+			new ClientThread(serverSocket, this, dataSocket);
 		}
 	}
-
+	
+	public PlayerList getList(){
+		return List;
+	}
+	
 	public int getMaxPlayers(){
 		return MaxPlayers;
 	}

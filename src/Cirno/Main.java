@@ -6,9 +6,14 @@ import java.awt.Graphics;
 import PlayerClasses.Player;
 import Server.Server;
 
+/**
+ * @author Cirno the Genius/Tenko.
+ */
 public class Main extends Applet {
 	
 	public boolean isRunning;
+	public static Server s;
+	
 	
 	public void paint(Graphics g){
 		g.drawString("Hello world!", 50, 25);
@@ -17,11 +22,8 @@ public class Main extends Applet {
 	
 	public void start(){
 		if(!isRunning){
-			Server s = new Server("CirnoServer", 1);
-			Player p = new Player("Cirno", 100, 1, 1, s);
-			
-			new Player("Rumia", 100, 1, 1, s);
-			new Player("Mystia", 100, 1, 1, s);
+			s = new Server("CirnoServer", 3);
+			new Player("Cirno", 100, 1, 1, s);
 			isRunning = true;
 		}
 	}
