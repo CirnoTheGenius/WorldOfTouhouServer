@@ -3,7 +3,6 @@ package Cirno;
 import java.applet.Applet;
 import java.awt.Graphics;
 
-import PlayerClasses.Player;
 import Server.Server;
 
 /**
@@ -23,7 +22,6 @@ public class Main extends Applet {
 	public void start(){
 		if(!isRunning){
 			s = new Server("CirnoServer", 3);
-			new Player("Cirno", 100, 1, 1, s);
 			isRunning = true;
 		}
 	}

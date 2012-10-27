@@ -13,7 +13,6 @@ public class PlayerList extends ArrayList<Player> {
 	public PlayerList(Server server) {
 		this.server = server;
 	}
-
 	
 	@Override
 	public boolean add(Player p){

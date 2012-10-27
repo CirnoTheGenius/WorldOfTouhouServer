@@ -1,8 +1,6 @@
 package Server;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.ServerSocket;
@@ -14,17 +12,15 @@ import PlayerClasses.Player;
 
 public class ClientThread extends Thread {
 
-	private BufferedReader in;
-	private Socket Client;
-	private boolean isRunning;
+	public Socket Client;
 	private DatagramSocket ds;
 	private Server server;
+	private Player p;
 	
 	public ClientThread(ServerSocket s, Server s2, DatagramSocket d){
 		try {
 			Client = s.accept();
 			ds = d;
-			in = new BufferedReader(new InputStreamReader(Client.getInputStream()));
 			s2.getLogger().log("Client from "  + Client.getInetAddress().getHostAddress());
 			server = s2;
 			super.start();
@@ -41,17 +37,17 @@ public class ClientThread extends Thread {
 				ds.receive(packet);
 				String content = new String(packet.getData()).trim();
 				if(content.startsWith("user/")){
-					new Player(content.split("user/")[1], 100, 1, 1, Main.s);
+					p = new Player(content.split("user/")[1], 100, 1, 1, Main.s);
+					server.sendToClients("Welcome " + content.split("user/")[1] + "!");
 				} else if(content.startsWith("chat/")){
-					System.out.println(content.split("chat/")[1]);
+					server.sendToClients(content.split("chat/")[1]);
+				} else if(content.startsWith("disconnect/")){
+					server.getList().remove(p);
+					server.sendToClients(content.split("disconnect/")[1] + " has left.");
 				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	public void sendDataToClients(){
-		
 	}
 }
