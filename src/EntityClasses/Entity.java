@@ -7,13 +7,9 @@ public class Entity {
 	private int Health;
 	private HealthMonitor hm;
 	
-	private int PosX, PosY;
-	
 	public Entity(String n, int h){
 		Health = h;
 		Name = n;
-		PosX = 0;
-		PosY = 0;
 		hm = new HealthMonitor(this);
 	}
 	
