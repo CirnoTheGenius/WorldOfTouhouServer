@@ -46,11 +46,14 @@ public class Server extends Thread {
 				 * Day 9: Sending data to a client is a pain.
 				 * Day 10: Suicide. Stupid game part won't display chat messages, and it keeps duping the messages.
 				 * Day 11: HOORAY! Stupid chat works! Added some stoof too.
+				 * Day something: Food supplies running low. I don't know if I'll make it out alive.
 				 */
 				Socket tmp = serverSocket.accept();
-				if(!clientIPs.contains(tmp.getInetAddress())){
-					clients.add(new ClientThread(tmp, this, dataSocket, m));
-					clientIPs.add(tmp.getInetAddress());
+				for(ClientThread th : clients){
+					if(!th.Client.isClosed()){
+						clients.add(new ClientThread(tmp, this, dataSocket, m));
+						clientIPs.add(tmp.getInetAddress());
+					}
 				}
 			}
 		} catch (IOException e) {
@@ -65,8 +68,8 @@ public class Server extends Thread {
 		clientIPs.remove(home);
 		sendToClients(username + " has left.");
 		m.addChatMessage(username + " has left.");
-		cs.Client.close();
 		cs.ds.close();
+		cs.Client.close();
 		clients.remove(cs);
 		m.refreshPlayer();
 	}

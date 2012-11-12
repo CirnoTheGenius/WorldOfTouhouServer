@@ -11,8 +11,8 @@ import PlayerClasses.Player;
 
 public class ClientThread extends Thread {
 
-	Socket Client;
-	DatagramSocket ds;
+	public Socket Client;
+	public DatagramSocket ds;
 	private Server server;
 	private Main main;
 	private Player p;
@@ -43,6 +43,7 @@ public class ClientThread extends Thread {
 					main.addChatMessage(content.split("chat/")[1]);
 				} else if(content.startsWith("disconnect/")){
 					server.removePlayer(p, Client.getInetAddress(), p.getName(), this);
+					main.refreshPlayer();
 				}
 			}
 		} catch (IOException e) {

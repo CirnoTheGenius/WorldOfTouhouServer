@@ -19,11 +19,12 @@ public class PlayerList extends ArrayList<Player> {
 		if(server.getMaxPlayers() > this.size()){
 			server.getLogger().log(p.getName() + " has joined server " + server.getServerName());
 			super.add(p);
+			return true;
 		} else {
 			server.getLogger().log(p.getName() + " has failed to join server " + server.getServerName(), Severity.NINEBALL);
 			server.getLogger().log("Reason: Server too full!", Severity.NINEBALL);
+			return false;
 		}
-		return true;
 	}
 	
 	private boolean isCommonName(String p){

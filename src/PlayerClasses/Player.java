@@ -12,11 +12,6 @@ public class Player extends Entity {
 	public Player(String n, int h, int m, int b, Server s){
 		super(n, h);
 		new HealthMonitor(this);
-		s.getList().add(this);
-	}
-	
-	public void chat(){
-		
 	}
 	
 }
